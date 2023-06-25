@@ -67,6 +67,7 @@ export class MovieModal {
   }
 
   refreshBtn(movieId, btnAttribute, btnText) {
+    this.refs.modalAddOrRemoveBtn.removeAttribute('data-add'); // removing default attribute at reopen modal
     this.refs.modalAddOrRemoveBtn.setAttribute('data-id', movieId);
     this.refs.modalAddOrRemoveBtn.setAttribute('data-' + btnAttribute, '');
     this.refs.modalAddOrRemoveBtn.textContent = btnText;
@@ -78,6 +79,7 @@ export function openModalAboutFilm(movieId) {
   const modal = new MovieModal();
 
   const isSaved = findFilmAtStorage(STORAGE_KEY, movieId);
+
   const btnAttribute = isSaved ? 'remove' : 'add';
   const btnText = isSaved ? 'Remove from my library' : 'Add to my library';
 

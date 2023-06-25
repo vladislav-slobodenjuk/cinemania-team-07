@@ -1,8 +1,10 @@
 import API from './api-library';
+import { insertMarkup } from '../weekly-trends/weekly-trends-markup';
+import { createMarkup } from '../weekly-trends/weekly-trends-markup';
 import defaultImg from '../../images/default.jpg';
-import starsRating from '../../javascript/stars-rating';
+// import starsRating from '../../javascript/stars-rating';
 import { STORAGE_KEY } from '../api-service/api_keys';
-import { validateGenres } from '../weekly-trends/weekly-trends-genres';
+// import { validateGenres } from '../weekly-trends/weekly-trends-genres';
 import { openModalAboutFilm } from '../modal/movieModal';
 
 const libraryRef = document.querySelector('.library');
@@ -10,11 +12,12 @@ const btnLib = document.getElementById('loadMore');
 const filmList = document.querySelector('.listListener');
 
 const library = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
 window.addEventListener('DOMContentLoaded', () => {
   getLibrarylistInParts(library);
 });
-
 btnLib?.addEventListener('click', onLoadMoreClick);
+
 function onLoadMoreClick() {
   firstEl += 9;
   totalElementInList += 9;
@@ -23,6 +26,7 @@ function onLoadMoreClick() {
 
 let totalElementInList = 0;
 let firstEl = 0;
+
 function getLibrarylistInParts(libraryData) {
   const totalLiberyLength = libraryData.length;
   const libraryInParts = libraryData.slice(firstEl, firstEl + 9);
@@ -98,54 +102,26 @@ export function deleteCardLibrary(id) {
   }
 }
 
+function createDefaultMarkup() {
+  return `<div class="library-info library-info-container">
+            <p class="library-info-text">
+              OOPS... <br> We are very sorry!<br>
+              You don't have any movies in your library.
+            </p>
+            <a class="btn btn-search-movie" href="./catalog.html">
+              Search movie
+            </a>
+          </div>`;
+}
+
 async function createLibraryMarkup(libraryInParts) {
-  const genresData = JSON.parse(localStorage.getItem('genres'));
   if (libraryRef && libraryInParts.length === 0) {
-    libraryRef.innerHTML = `<div class="library-info library-info-container">
-                              <p class="library-info-text">
-                                OOPS... <br> We are very sorry!<br>
-                                You don’t have any movies in your library.
-                              </p>
-                               <a class="btn btn-search-movie" href="./catalog.html">Search movie</a>
-                            </div>`;
-  } else {
-    const genreIds = libraryInParts.flatMap(movie =>
-      movie.genres.map(genre => genre.id)
-    );
-    const genresPromise = validateGenres(genreIds, genresData);
-    const genres = await genresPromise;
-
-    const markup = libraryInParts.map(movie => {
-      const imageSrc = movie.poster_path
-        ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-        : `${defaultImg}`;
-
-      return `<li class="card-item item" data-id="${movie.id}">
-              <img class="film-poster" src="${imageSrc}" alt="${
-        movie.original_title
-      }" />
-              <div class="overlay">
-                <div class="film-info">
-                  <p class="film-title">${
-                    movie.original_title || movie.name
-                  }</p>
-                  <div class="film-details">
-                    <span class="film-description">${genres} | ${
-        new Date(movie.release_date).getFullYear() ||
-        new Date(movie.first_air_date).getFullYear()
-      }</span>
-                    <div class="stars-container">${starsRating({
-                      voteAverage: movie.vote_average,
-                      isHero: false,
-                    })}</div>            
-                  </div>
-                </div>
-              </div>
-            </li>`;
-    });
-
-    if (libraryRef) libraryRef.insertAdjacentHTML('beforeend', markup.join(''));
+    const defaultMarkup = createDefaultMarkup();
+    return insertMarkup(libraryRef, defaultMarkup);
   }
+
+  const cardsMarkup = createMarkup(libraryInParts);
+  insertMarkup(libraryRef, cardsMarkup);
 }
 
 filmList.addEventListener('click', event => {
