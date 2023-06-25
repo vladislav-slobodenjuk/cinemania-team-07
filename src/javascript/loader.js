@@ -13,5 +13,5 @@ function loaderInit() {
 
   // loaderEl.classList.add('loader--shown');
   document.body.style.overflow = 'hidden';
-  document.body.style.paddingRight = `${scrollBarWidth}px`;
+  // document.body.style.paddingRight = `${scrollBarWidth}px`;
 }

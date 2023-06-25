@@ -2,7 +2,8 @@ import { refs } from './refs';
 import defaultImg from '../../images/default.jpg';
 import starsRating from '../stars-rating';
 import { validateGenres } from '../weekly-trends/weekly-trends-genres';
-import { openModalAboutFilm } from '../modal/movieModal';
+// import { openModalAboutFilm } from '../modal/movieModal';
+import modalInit from '../modal/modalInit';
 
 export async function createMovieCard(data) {
   const genresData = JSON.parse(localStorage.getItem('genres'));
@@ -53,8 +54,9 @@ export async function createMovieCard(data) {
   const filmList = document.querySelector('.listListener');
 
   filmList.addEventListener('click', event => {
-    const li = event.target.closest('.card-item');
-    const movieId = li.getAttribute('data-id');
-    openModalAboutFilm(movieId);
+    // const li = event.target.closest('.card-item');
+    // const movieId = li.getAttribute('data-id');
+    // openModalAboutFilm(movieId);
+    modalInit(event.target.closest('.card-item').getAttribute('data-id'));
   });
 }

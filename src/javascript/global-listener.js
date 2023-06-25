@@ -1,4 +1,5 @@
-import { openModalAboutFilm } from './modal/movieModal';
+// import { openModalAboutFilm } from './modal/movieModal';
+import modalInit from './modal/modalInit';
 import { handleFilm } from './library/library';
 // import { playTrailer } from './modal-trailer';
 
@@ -13,7 +14,8 @@ window.addEventListener('click', e => {
 
   switch (e.target) {
     case heroDetailsButton:
-      openModalAboutFilm(id);
+      // openModalAboutFilm(id);
+      modalInit(id);
       break;
 
     // case addBtn:
