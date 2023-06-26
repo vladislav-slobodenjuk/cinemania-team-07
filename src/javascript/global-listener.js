@@ -1,5 +1,5 @@
 import { openModalAboutFilm } from './modal/movieModal';
-import { handleFilm } from './library/library';
+import { handleFilm } from './library/button-processing'
 // import { playTrailer } from './modal-trailer';
 
 window.addEventListener('click', e => {
