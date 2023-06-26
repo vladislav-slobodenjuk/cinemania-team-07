@@ -16,3 +16,12 @@ export async function getGenresData() {
   );
   return response.data.genres;
 }
+
+export async function getMovieById(id) {
+  
+  const result = axios
+    .get(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`)
+
+   
+    return result.data
+}

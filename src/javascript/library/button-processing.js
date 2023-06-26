@@ -1,10 +1,5 @@
-// import { addFilmCardToLibrary } from "./filmCard/addFilmCard";
-// import { deleteFilmCardFromLibrary } from "./filmCard/deleteFilmCard";
-
-import { addFilmCardToLibrary, deleteFilmCardFromLibrary } from "./library";
-
-
-
+import { addFilmCardToLibrary } from "./filmCard/addFilmCard";
+import { deleteFilmCardFromLibrary } from "./filmCard/deleteFilmCard";
 
 
 export function handleFilm(e) {
