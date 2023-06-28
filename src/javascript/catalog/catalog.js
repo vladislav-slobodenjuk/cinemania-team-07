@@ -55,8 +55,8 @@ async function handleSearchedMovies(query) {
   try {
     const searchedMovies = await getSearchedMovies(query);
 
-    // paginationInstance.reset(searchedMovies.total_results);
-    // setPage(paginationInstance, query);
+    paginationInstance.reset(searchedMovies.total_results);
+    setPage(paginationInstance, query);
 
     if (searchedMovies.results.length === 0 || query === '') {
       const errorMarkup = createErrorMarkup();
