@@ -41,12 +41,11 @@ async function handleCatalogTrends() {
   try {
     const catalogMovies = await getTrendyFilms();
 
+    const movies = createMarkup(catalogMovies.results);
+    insertMarkup(catalogList, movies);
+
     paginationInstance.reset(catalogMovies.total_results);
     setPage(paginationInstance, '');
-
-    const movies = createMarkup(catalogMovies.results);
-
-    insertMarkup(catalogList, movies);
   } catch (error) {
     console.error(error);
   }
@@ -56,13 +55,8 @@ async function handleSearchedMovies(query) {
   try {
     const searchedMovies = await getSearchedMovies(query);
 
-    // if (searchedMovies.total_results <= 20) {
-    //   paginationContainer.classList.add('is-hidden');
-    //   console.log(paginationContainer.classList);
-    // }
-
-    paginationInstance.reset(searchedMovies.total_results);
-    setPage(paginationInstance, query);
+    // paginationInstance.reset(searchedMovies.total_results);
+    // setPage(paginationInstance, query);
 
     if (searchedMovies.results.length === 0 || query === '') {
       const errorMarkup = createErrorMarkup();
@@ -75,8 +69,12 @@ async function handleSearchedMovies(query) {
     hideErrorMarkup();
 
     const movies = createMarkup(searchedMovies.results);
-
     insertMarkup(catalogList, movies);
+
+    if (searchedMovies.total_results <= 20) {
+      paginationContainer.classList.add('is-hidden');
+      console.log(paginationContainer.classList);
+    }
   } catch (error) {
     console.log(error);
   }

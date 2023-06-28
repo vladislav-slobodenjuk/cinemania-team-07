@@ -34,8 +34,8 @@ export const options = {
   },
 };
 
-export function setPage(paginate, query) {
-  paginate.on('afterMove', async ({ page = 1 }) => {
+export function setPage(instance, query) {
+  instance.on('afterMove', async ({ page = 1 }) => {
     try {
       if (query === '') {
         const catalogMovies = await getTrendyFilms(page);
