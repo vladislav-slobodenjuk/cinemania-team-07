@@ -36,6 +36,7 @@ export const options = {
 
 export function setPage(instance, query) {
   instance.on('afterMove', async ({ page = 1 }) => {
+    window.scrollTo(0, 0);
     try {
       if (query === '') {
         const catalogMovies = await getTrendyFilms(page);
