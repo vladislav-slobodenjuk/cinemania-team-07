@@ -1,47 +1,27 @@
-import handleBackground from './handleBackground';
-import getMovieData from './getMovieData';
+import getMovieById from '../api-service/api-service';
+import createMarkup from './createMarkup';
+import { insertMarkup } from '../weekly-trends/weekly-trends-markup';
+import { openModal } from './openModal';
+import { refs } from './closeModal';
 
-const refs = {
-  backdrop: document.querySelector('.modal__backdrop'),
-  modal: document.querySelector('.modal__container'),
-  modalBtnClose: document.querySelector('.modal__button-close'),
-  content: document.querySelector('.modal__wrapper'),
-};
+export default async function handleModal(e) {
+  // clearElement(refs.modalContent);
 
-// document.addEventListener('click', () => {
-//   refs.backdrop.classList.remove('modal__backdrop--hide');
-//   handleBackground();
+  const movieId =
+    e.target.dataset.id ||
+    e.target.getAttribute('trailer-id') ||
+    e.target.closest('.card-item').getAttribute('data-id');
 
-//   document.addEventListener('keydown', handleKeyboard);
-//   refs.modalBtnClose.addEventListener('click', handleBtnClose);
-//   refs.backdrop.addEventListener('click', handleOuterClick);
+  const option = e.target.hasAttribute('trailer-id') ? 'trailer' : null;
 
-//   getMovieData('157336');
-// });
-
-function closeModal() {
-  refs.backdrop.classList.add('modal__backdrop--hide');
-  refs.content.innerHTML = '';
-  handleBackground();
-}
-
-export function handleKeyboard(e) {
-  if (e.code === 'Escape') {
-    closeModal();
-    window.removeEventListener('keydown', handleKeyboard);
+  try {
+    const movie = await getMovieById(movieId);
+    const modalMarkup = createMarkup(movie, option);
+    insertMarkup(refs.modalContent, modalMarkup);
+    //
+  } catch (error) {
+    console.trace(error);
   }
-}
 
-export function handleBtnClose() {
-  closeModal();
-  refs.modalBtnClose.removeEventListener('click', handleBtnClose);
-}
-
-export function handleOuterClick(e) {
-  const withinModal = e.composedPath().includes(refs.modal);
-
-  if (!withinModal) {
-    closeModal();
-    refs.backdrop.removeEventListener('click', handleOuterClick);
-  }
+  openModal();
 }

@@ -4,7 +4,7 @@ import { onError } from './on-error.js';
 import { CardHandler } from './card-handler.js';
 import { getTrendyFilms } from '../api-service/api-service.js';
 // import { openModalAboutFilm } from '../modal/movieModal.js';
-import modalInit from '../modal/modalInit.js';
+// import modalInit from '../modal/modalInit.js';
 
 window.addEventListener('DOMContentLoaded', showWeeklyTrends);
 window.addEventListener('resize', debounce(showWeeklyTrends, 200));
@@ -30,7 +30,7 @@ export async function showWeeklyTrends() {
       // const li = event.target.closest('.card-item');
       // const movieId = li.getAttribute('data-id');
       // openModalAboutFilm(movieId);
-      modalInit(event.target.closest('.card-item').getAttribute('data-id'));
+      // modalInit(event.target.closest('.card-item').getAttribute('data-id'));
     });
   } catch (error) {
     onError(error);

@@ -1,18 +1,21 @@
 const posterBaseUrl = 'https://image.tmdb.org/t/p/original';
 const content = document.querySelector('.modal__wrapper');
 
-export default function renderModal(details, options) {
+export default function createMarkup(details, options) {
   console.log(details);
 
-  const modalMarkup =
-    options === 'trailer'
-      ? renderModalTrailer(details)
-      : renderModalDetails(details);
+  if (options) return markupModalTrailer(details);
+  return markupModalDetails(details);
 
-  content.insertAdjacentHTML('afterbegin', modalMarkup);
+  // const modalMarkup =
+  //   options === 'trailer'
+  //     ? renderModalTrailer(details)
+  //     : renderModalDetails(details);
+
+  // content.insertAdjacentHTML('afterbegin', modalMarkup);
 }
 
-function renderModalDetails({
+function markupModalDetails({
   poster_path = './images/default.jpg',
   title,
   vote_average,
@@ -67,7 +70,7 @@ function renderModalDetails({
 			</div>`;
 }
 
-function renderModalTrailer({ videos: { results: videoResults } }) {
+function markupModalTrailer({ videos: { results: videoResults } }) {
   console.log(
     videoResults.filter(({ name }) => name.toLowerCase().includes('official'))
   );

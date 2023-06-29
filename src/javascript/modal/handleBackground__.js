@@ -1,6 +1,6 @@
 export default function handleBackground() {
-  const scrollBarWidth =
-    window.innerWidth - document.documentElement.clientWidth;
+  // const scrollBarWidth =
+  //   window.innerWidth - document.documentElement.clientWidth;
 
   if (
     document
