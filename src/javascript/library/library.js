@@ -148,8 +148,10 @@ async function createLibraryMarkup(libraryInParts) {
   }
 }
 
-filmList.addEventListener('click', event => {
-  const li = event.target.closest('.card-item');
-  const movieId = li.getAttribute('data-id');
-  openModalAboutFilm(movieId);
-});
+// filmList.addEventListener('click', event => {
+//   const li = event.target.closest('.card-item');
+//   const movieId = li.getAttribute('data-id');
+// openModalAboutFilm(movieId);
+// handleModal(movieId);
+// });
+console.log('from library page');
