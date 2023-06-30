@@ -34,23 +34,26 @@ export const options = {
   },
 };
 
-export function setPage(instance, query) {
+export function setPageForTrends(instance) {
   instance.on('afterMove', async ({ page = 1 }) => {
     window.scrollTo(0, 0);
 
-    try {
-      if (query === '') {
-        const catalogMovies = await getTrendyFilms(page);
-        const trendsMovies = createMarkup(catalogMovies.results);
-        insertMarkup(catalogList, trendsMovies);
-        return;
-      }
+    const catalogMovies = await getTrendyFilms(page);
 
-      const catalogMovies = await getSearchedMovies(query, page);
-      const searchedMovies = createMarkup(catalogMovies.results);
-      insertMarkup(catalogList, searchedMovies);
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    const trendsMovies = createMarkup(catalogMovies.results);
+    insertMarkup(catalogList, trendsMovies);
+  });
+}
+
+export function setPageForSearchedMovies(instance, query) {
+  instance.off('afterMove');
+
+  instance.on('afterMove', async ({ page = 1 }) => {
+    window.scrollTo(0, 0);
+
+    const catalogMovies = await getSearchedMovies(query, page);
+
+    const searchedMovies = createMarkup(catalogMovies.results);
+    insertMarkup(catalogList, searchedMovies);
   });
 }

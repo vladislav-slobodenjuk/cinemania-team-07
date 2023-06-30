@@ -4,7 +4,13 @@ import 'tui-pagination/dist/tui-pagination.css';
 import { refs } from './refs';
 import { getTrendyFilms, getSearchedMovies } from '../api-service/api-service';
 import { createErrorMarkup } from './create-error-markup';
-import { setPage, options } from './pagination';
+
+import {
+  setPageForTrends,
+  setPageForSearchedMovies,
+  options,
+} from './pagination';
+
 import {
   createMarkup,
   insertMarkup,
@@ -45,7 +51,7 @@ async function handleCatalogTrends() {
     insertMarkup(catalogList, movies);
 
     paginationInstance.reset(catalogMovies.total_results);
-    setPage(paginationInstance, '');
+    setPageForTrends(paginationInstance, '');
   } catch (error) {
     console.error(error);
   }
@@ -55,26 +61,21 @@ async function handleSearchedMovies(query) {
   try {
     const searchedMovies = await getSearchedMovies(query);
 
+    hideElement(errorContainer);
+    handlePaginationAppearance(searchedMovies.total_results);
+
     paginationInstance.reset(searchedMovies.total_results);
-    setPage(paginationInstance, query);
+    setPageForSearchedMovies(paginationInstance, query);
 
     if (searchedMovies.results.length === 0 || query === '') {
-      const errorMarkup = createErrorMarkup();
+      handleErrorMarkup();
 
-      insertMarkup(errorContainer, errorMarkup);
-      showErrorMarkup();
+      handlePaginationAppearance(searchedMovies.total_results);
       return;
     }
 
-    hideErrorMarkup();
-
     const movies = createMarkup(searchedMovies.results);
     insertMarkup(catalogList, movies);
-
-    if (searchedMovies.total_results <= 20) {
-      paginationContainer.classList.add('is-hidden');
-      console.log(paginationContainer.classList);
-    }
   } catch (error) {
     console.log(error);
   }
@@ -95,23 +96,17 @@ function onSubmit(e) {
 
 function clearSearchInput() {
   searchInput.value = '';
-  cancelBtn.classList.add('is-hidden');
+  hideElement(cancelBtn);
 }
 
-// Обробка помилки: приховання та показ
+// Обробка помилки
 
-function showErrorMarkup() {
-  errorContainer.classList.remove('is-hidden');
+function handleErrorMarkup() {
+  const errorMarkup = createErrorMarkup();
+  insertMarkup(errorContainer, errorMarkup);
 
+  showElement(errorContainer);
   catalogList.innerHTML = '';
-
-  paginationContainer.classList.add('is-hidden');
-}
-
-function hideErrorMarkup() {
-  errorContainer.classList.add('is-hidden');
-
-  paginationContainer.classList.remove('is-hidden');
 }
 
 // Cancel Button
@@ -119,12 +114,30 @@ function hideErrorMarkup() {
 function onInput(e) {
   const input = e.currentTarget;
 
-  if (input.value !== '') return cancelBtn.classList.remove('is-hidden');
-  cancelBtn.classList.add('is-hidden');
+  if (input.value !== '') return showElement(cancelBtn);
+  hideElement(cancelBtn);
 }
 
 function onCancelBtnClick() {
   searchInput.value = '';
 
-  cancelBtn.classList.add('is-hidden');
+  hideElement(cancelBtn);
+}
+
+// Hide or show element
+
+function showElement(element) {
+  element.classList.remove('is-hidden');
+}
+
+function hideElement(element) {
+  element.classList.add('is-hidden');
+}
+
+//
+
+function handlePaginationAppearance(totalItems) {
+  totalItems <= 20
+    ? hideElement(paginationContainer)
+    : showElement(paginationContainer);
 }
