@@ -3,7 +3,11 @@ import 'tui-pagination/dist/tui-pagination.css';
 
 import { refs } from './refs';
 import { getTrendyFilms, getSearchedMovies } from '../api-service/api-service';
-import { createErrorMarkup } from './create-error-markup';
+
+import {
+  createErrorMarkup,
+  createServerErrorMessageMarkup,
+} from './create-error-markup';
 
 import {
   setPageForTrends,
@@ -47,47 +51,64 @@ async function handleCatalogTrends() {
   try {
     const catalogMovies = await getTrendyFilms();
 
-    const movies = createMarkup(catalogMovies.results);
-    insertMarkup(catalogList, movies);
-
-    paginationInstance.reset(catalogMovies.total_results);
-    setPageForTrends(paginationInstance, '');
+    resetPaginationInterface(catalogMovies.total_results);
+    handleResultList(catalogMovies.results);
   } catch (error) {
-    console.error(error);
+    handleServerErrorMarkup();
   }
 }
 
 async function handleSearchedMovies(query) {
   try {
     const searchedMovies = await getSearchedMovies(query);
-
-    hideElement(errorContainer);
-    handlePaginationAppearance(searchedMovies.total_results);
-
-    paginationInstance.reset(searchedMovies.total_results);
-    setPageForSearchedMovies(paginationInstance, query);
+    const totalResults = searchedMovies.total_results;
 
     if (searchedMovies.results.length === 0 || query === '') {
-      handleErrorMarkup();
+      handleEmptyResult();
 
-      handlePaginationAppearance(searchedMovies.total_results);
+      handlePaginationAppearance(totalResults);
       return;
     }
 
-    const movies = createMarkup(searchedMovies.results);
-    insertMarkup(catalogList, movies);
+    hideElement(errorContainer);
+
+    resetPaginationInterface(totalResults, query);
+    handleResultList(searchedMovies.results);
+
+    handlePaginationAppearance(totalResults);
   } catch (error) {
-    console.log(error);
+    handleServerErrorMarkup();
   }
 }
 
 // =========== Допоміжні функії =========== //
 
+// Розмітка і пагінація
+
+function handleResultList(moviesArray) {
+  const moviesMarkup = createMarkup(moviesArray);
+  insertMarkup(catalogList, moviesMarkup);
+}
+
+function resetPaginationInterface(moviesArray, query = '') {
+  paginationInstance.reset(moviesArray);
+
+  query === ''
+    ? setPageForTrends(paginationInstance, query)
+    : setPageForSearchedMovies(paginationInstance, query);
+}
+
+function handlePaginationAppearance(totalItems = 0) {
+  totalItems <= 20
+    ? hideElement(paginationContainer)
+    : showElement(paginationContainer);
+}
+
 // Обробка сабміту форми, отримання query
 
-function onSubmit(e) {
-  e.preventDefault();
-  const query = e.target.children.search.value.trim();
+function onSubmit(event) {
+  event.preventDefault();
+  const query = event.target.children.search.value.trim();
 
   handleSearchedMovies(query);
 
@@ -101,20 +122,28 @@ function clearSearchInput() {
 
 // Обробка помилки
 
-function handleErrorMarkup() {
-  const errorMarkup = createErrorMarkup();
-  insertMarkup(errorContainer, errorMarkup);
+function handleEmptyResult() {
+  const markup = createErrorMarkup();
+  insertMarkup(errorContainer, markup);
 
   showElement(errorContainer);
   catalogList.innerHTML = '';
 }
 
+function handleServerErrorMarkup() {
+  const errorMarkup = createServerErrorMessageMarkup();
+  insertMarkup(errorContainer, errorMarkup);
+
+  showElement(errorContainer);
+  handlePaginationAppearance();
+}
+
 // Cancel Button
 
-function onInput(e) {
-  const input = e.currentTarget;
+function onInput(event) {
+  const input = event.currentTarget;
 
-  if (input.value !== '') return showElement(cancelBtn);
+  if (input.value.trim() !== '') return showElement(cancelBtn);
   hideElement(cancelBtn);
 }
 
@@ -132,12 +161,4 @@ function showElement(element) {
 
 function hideElement(element) {
   element.classList.add('is-hidden');
-}
-
-//
-
-function handlePaginationAppearance(totalItems) {
-  totalItems <= 20
-    ? hideElement(paginationContainer)
-    : showElement(paginationContainer);
 }
