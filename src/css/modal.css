@@ -217,6 +217,21 @@
   color: #f87719;
 }
 
+.modal__error-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.modal__error-text {
+  font-size: 24px;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.modal__error-text:first-child {
+  margin-bottom: 15px;
+}
+
 @media screen and (min-width: 560px) {
   .modal__wrapper {
     flex-direction: row;

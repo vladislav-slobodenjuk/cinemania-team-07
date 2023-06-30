@@ -5,7 +5,7 @@ import { API_URL, API_KEY } from './api_keys';
 
 export async function getTrendyFilms() {
   const films = await axios.get(
-    `${API_URL}/trending/all/week?api_key=${API_KEY}`
+    `${API_URL}/trending/movie/week?api_key=${API_KEY}`
     // `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
   );
   return films;

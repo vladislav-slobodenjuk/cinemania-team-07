@@ -7,7 +7,15 @@ export function createMarkup(films) {
 
   return films
     .map(
-      ({ id, poster_path, release_date, title, genre_ids, vote_average }) => {
+      ({
+        id,
+        poster_path,
+        release_date,
+        title,
+        // name,
+        genre_ids,
+        vote_average,
+      }) => {
         const genres = validateGenres(genre_ids, storage);
         const posterPath = `https://image.tmdb.org/t/p/original/${poster_path}`;
 

@@ -1,6 +1,5 @@
 export const refs = {
   backdrop: document.querySelector('.modal__backdrop'),
-  // modal: document.querySelector('.modal__container'),
   modalBtnClose: document.querySelector('.modal__button-close'),
   modalContent: document.querySelector('.modal__wrapper'),
 };
