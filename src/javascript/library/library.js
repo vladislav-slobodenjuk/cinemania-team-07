@@ -3,7 +3,7 @@ import defaultImg from '../../images/default.jpg';
 import starsRating from '../../javascript/stars-rating';
 import { STORAGE_KEY } from '../api-service/api_keys';
 import { validateGenres } from '../weekly-trends/weekly-trends-genres';
-import { openModalAboutFilm } from '../modal/movieModal';
+// import { openModalAboutFilm } from '../modal/movieModal';
 
 const libraryRef = document.querySelector('.library');
 const btnLib = document.getElementById('loadMore');

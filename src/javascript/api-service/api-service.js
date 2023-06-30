@@ -2,16 +2,6 @@ import axios from 'axios';
 import { API_URL, API_KEY, API_BAERER } from './api_keys';
 
 // all apis here
-// export async function getTrendyFilms() {
-//   const films = await axios.get(
-//     `${API_URL}/trending/movie/week?api_key=${API_KEY}`
-//     // `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}`
-//   );
-//   return films;
-// }
-// import { API_KEY, API_BAERER } from './api_keys';
-
-// all apis here
 
 export async function getGenresData() {
   const response = await axios.get(
