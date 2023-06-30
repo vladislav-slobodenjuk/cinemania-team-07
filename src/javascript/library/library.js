@@ -3,7 +3,7 @@ import defaultImg from '../../images/default.jpg';
 import starsRating from '../../javascript/stars-rating';
 import { STORAGE_KEY } from '../api-service/api_keys';
 import { validateGenres } from '../weekly-trends/weekly-trends-genres';
-import { openModalAboutFilm } from '../modal/movieModal';
+// import { openModalAboutFilm } from '../modal/movieModal';
 
 const libraryRef = document.querySelector('.library');
 const btnLib = document.getElementById('loadMore');
@@ -148,8 +148,10 @@ async function createLibraryMarkup(libraryInParts) {
   }
 }
 
-filmList.addEventListener('click', event => {
-  const li = event.target.closest('.card-item');
-  const movieId = li.getAttribute('data-id');
-  openModalAboutFilm(movieId);
-});
+// filmList.addEventListener('click', event => {
+//   const li = event.target.closest('.card-item');
+//   const movieId = li.getAttribute('data-id');
+// openModalAboutFilm(movieId);
+// handleModal(movieId);
+// });
+console.log('from library page');

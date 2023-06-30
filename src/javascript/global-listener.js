@@ -1,5 +1,5 @@
-import { openModalAboutFilm } from './modal/movieModal';
-// import handleModal from './modal/modalInit';
+// import { openModalAboutFilm } from './modal/movieModal';
+import handleModal from './modal/handleModal';
 import { handleFilm } from './library/library';
 // import { playTrailer } from './modal-trailer';
 
@@ -10,7 +10,7 @@ window.addEventListener('click', e => {
   // const removeBtn = document.querySelector('[data-remove]');
   // const upcomingBtn = document.querySelector('.btn');
 
-  const id = e.target.dataset.id;
+  // const id = e.target.dataset.id;
   // console.log(e.target.hasAttribute('trailer-id'));
 
   const isHeroDetailsButton = e.target.classList.contains('css-bnt-info');
@@ -24,8 +24,8 @@ window.addEventListener('click', e => {
     case isHeroDetailsButton:
     case IsTrailerButton:
     case isFilmCard:
-      openModalAboutFilm(id);
-      // handleModal(e);
+      // openModalAboutFilm(id);
+      handleModal(e);
       break;
 
     // case isUpcomingBtn:

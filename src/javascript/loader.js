@@ -1,17 +1,12 @@
 const loaderEl = document.querySelector('.loader');
 
-loaderInit();
+document.body.style.overflow = 'hidden';
 
-window.onload = () => {
+window.addEventListener('load', hideLoader);
+
+function hideLoader() {
   loaderEl.classList.remove('loader--shown');
   document.body.removeAttribute('style');
-};
 
-function loaderInit() {
-  const scrollBarWidth =
-    window.innerWidth - document.documentElement.clientWidth;
-
-  // loaderEl.classList.add('loader--shown');
-  document.body.style.overflow = 'hidden';
-  document.body.style.paddingRight = `${scrollBarWidth}px`;
+  window.removeEventListener('load', hideLoader);
 }
