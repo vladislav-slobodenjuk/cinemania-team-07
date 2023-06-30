@@ -5,7 +5,7 @@ import {
 } from '../weekly-trends/weekly-trends-markup';
 import { refs } from './refs';
 
-const { catalogList } = refs;
+const { catalogList, searchForm } = refs;
 
 export const options = {
   totalItems: 20,
@@ -36,7 +36,7 @@ export const options = {
 
 export function setPageForTrends(instance) {
   instance.on('afterMove', async ({ page = 1 }) => {
-    window.scrollTo(0, 0);
+    searchForm.scrollIntoView();
 
     const catalogMovies = await getTrendyFilms(page);
 
@@ -49,7 +49,7 @@ export function setPageForSearchedMovies(instance, query) {
   instance.off('afterMove');
 
   instance.on('afterMove', async ({ page = 1 }) => {
-    window.scrollTo(0, 0);
+    searchForm.scrollIntoView();
 
     const catalogMovies = await getSearchedMovies(query, page);
 

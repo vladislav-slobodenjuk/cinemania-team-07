@@ -55,6 +55,7 @@ async function handleCatalogTrends() {
     handleResultList(catalogMovies.results);
   } catch (error) {
     handleServerErrorMarkup();
+    handlePaginationAppearance();
   }
 }
 
@@ -78,6 +79,7 @@ async function handleSearchedMovies(query) {
     handlePaginationAppearance(totalResults);
   } catch (error) {
     handleServerErrorMarkup();
+    handlePaginationAppearance();
   }
 }
 
@@ -135,7 +137,6 @@ function handleServerErrorMarkup() {
   insertMarkup(errorContainer, errorMarkup);
 
   showElement(errorContainer);
-  handlePaginationAppearance();
 }
 
 // Cancel Button
