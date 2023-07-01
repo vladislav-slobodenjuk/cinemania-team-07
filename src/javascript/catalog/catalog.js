@@ -3,8 +3,18 @@ import 'tui-pagination/dist/tui-pagination.css';
 
 import { refs } from './refs';
 import { getTrendyFilms, getSearchedMovies } from '../api-service/api-service';
-import { createErrorMarkup } from './create-error-markup';
-import { setPage, options } from './pagination';
+
+import {
+  createErrorMarkup,
+  createServerErrorMessageMarkup,
+} from './create-error-markup';
+
+import {
+  setPageForTrends,
+  setPageForSearchedMovies,
+  options,
+} from './pagination';
+
 import {
   createMarkup,
   insertMarkup,
@@ -41,54 +51,67 @@ async function handleCatalogTrends() {
   try {
     const catalogMovies = await getTrendyFilms();
 
-    paginationInstance.reset(catalogMovies.total_results);
-    setPage(paginationInstance, '');
-
-    const movies = createMarkup(catalogMovies.results);
-
-    insertMarkup(catalogList, movies);
+    handleResultList(catalogMovies.results);
+    resetPaginationInterface(catalogMovies.total_results);
+    handlePaginationAppearance(catalogMovies.results);
   } catch (error) {
-    console.error(error);
+    handleServerErrorMarkup();
+    handlePaginationAppearance();
   }
 }
 
 async function handleSearchedMovies(query) {
   try {
     const searchedMovies = await getSearchedMovies(query);
-
-    // if (searchedMovies.total_results <= 20) {
-    //   paginationContainer.classList.add('is-hidden');
-    //   console.log(paginationContainer.classList);
-    // }
-
-    paginationInstance.reset(searchedMovies.total_results);
-    setPage(paginationInstance, query);
+    const totalResults = searchedMovies.total_results;
 
     if (searchedMovies.results.length === 0 || query === '') {
-      const errorMarkup = createErrorMarkup();
+      handleEmptyResult();
 
-      insertMarkup(errorContainer, errorMarkup);
-      showErrorMarkup();
+      handlePaginationAppearance(totalResults);
       return;
     }
 
-    hideErrorMarkup();
+    hideElement(errorContainer);
 
-    const movies = createMarkup(searchedMovies.results);
+    handleResultList(searchedMovies.results);
 
-    insertMarkup(catalogList, movies);
+    resetPaginationInterface(totalResults, query);
+    handlePaginationAppearance(totalResults);
   } catch (error) {
-    console.log(error);
+    handleServerErrorMarkup();
+    handlePaginationAppearance();
   }
 }
 
 // =========== Допоміжні функії =========== //
 
+// Розмітка і пагінація
+
+function handleResultList(moviesArray) {
+  const moviesMarkup = createMarkup(moviesArray);
+  insertMarkup(catalogList, moviesMarkup);
+}
+
+function resetPaginationInterface(moviesArray, query = '') {
+  paginationInstance.reset(moviesArray);
+
+  query === ''
+    ? setPageForTrends(paginationInstance, query)
+    : setPageForSearchedMovies(paginationInstance, query);
+}
+
+function handlePaginationAppearance(totalItems = 0) {
+  totalItems <= 20
+    ? hideElement(paginationContainer)
+    : showElement(paginationContainer);
+}
+
 // Обробка сабміту форми, отримання query
 
-function onSubmit(e) {
-  e.preventDefault();
-  const query = e.target.children.search.value.trim();
+function onSubmit(event) {
+  event.preventDefault();
+  const query = event.target.children.search.value.trim();
 
   handleSearchedMovies(query);
 
@@ -97,36 +120,47 @@ function onSubmit(e) {
 
 function clearSearchInput() {
   searchInput.value = '';
-  cancelBtn.classList.add('is-hidden');
+  hideElement(cancelBtn);
 }
 
-// Обробка помилки: приховання та показ
+// Обробка помилки
 
-function showErrorMarkup() {
-  errorContainer.classList.remove('is-hidden');
+function handleEmptyResult() {
+  const markup = createErrorMarkup();
+  insertMarkup(errorContainer, markup);
 
+  showElement(errorContainer);
   catalogList.innerHTML = '';
-
-  paginationContainer.classList.add('is-hidden');
 }
 
-function hideErrorMarkup() {
-  errorContainer.classList.add('is-hidden');
+function handleServerErrorMarkup() {
+  const errorMarkup = createServerErrorMessageMarkup();
+  insertMarkup(errorContainer, errorMarkup);
 
-  paginationContainer.classList.remove('is-hidden');
+  showElement(errorContainer);
 }
 
 // Cancel Button
 
-function onInput(e) {
-  const input = e.currentTarget;
+function onInput(event) {
+  const input = event.currentTarget;
 
-  if (input.value !== '') return cancelBtn.classList.remove('is-hidden');
-  cancelBtn.classList.add('is-hidden');
+  if (input.value.trim() !== '') return showElement(cancelBtn);
+  hideElement(cancelBtn);
 }
 
 function onCancelBtnClick() {
   searchInput.value = '';
 
-  cancelBtn.classList.add('is-hidden');
+  hideElement(cancelBtn);
+}
+
+// Hide or show element
+
+function showElement(element) {
+  element.classList.remove('is-hidden');
+}
+
+function hideElement(element) {
+  element.classList.add('is-hidden');
 }

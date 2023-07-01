@@ -5,7 +5,7 @@ import {
 } from '../weekly-trends/weekly-trends-markup';
 import { refs } from './refs';
 
-const { catalogList } = refs;
+const { catalogList, catalogSection } = refs;
 
 export const options = {
   totalItems: 20,
@@ -34,21 +34,26 @@ export const options = {
   },
 };
 
-export function setPage(paginate, query) {
-  paginate.on('afterMove', async ({ page = 1 }) => {
-    try {
-      if (query === '') {
-        const catalogMovies = await getTrendyFilms(page);
-        const trendsMovies = createMarkup(catalogMovies.results);
-        insertMarkup(catalogList, trendsMovies);
-        return;
-      }
+export function setPageForTrends(instance) {
+  instance.on('afterMove', async ({ page = 1 }) => {
+    catalogSection.scrollIntoView({ behavior: 'smooth' });
 
-      const catalogMovies = await getSearchedMovies(query, page);
-      const searchedMovies = createMarkup(catalogMovies.results);
-      insertMarkup(catalogList, searchedMovies);
-    } catch (error) {
-      console.error('An error occurred:', error);
-    }
+    const catalogMovies = await getTrendyFilms(page);
+
+    const trendsMovies = createMarkup(catalogMovies.results);
+    insertMarkup(catalogList, trendsMovies);
+  });
+}
+
+export function setPageForSearchedMovies(instance, query) {
+  instance.off('afterMove');
+
+  instance.on('afterMove', async ({ page = 1 }) => {
+    catalogSection.scrollIntoView({ behavior: 'smooth' });
+
+    const catalogMovies = await getSearchedMovies(query, page);
+
+    const searchedMovies = createMarkup(catalogMovies.results);
+    insertMarkup(catalogList, searchedMovies);
   });
 }
