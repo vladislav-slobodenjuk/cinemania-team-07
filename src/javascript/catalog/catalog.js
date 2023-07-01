@@ -51,8 +51,9 @@ async function handleCatalogTrends() {
   try {
     const catalogMovies = await getTrendyFilms();
 
-    resetPaginationInterface(catalogMovies.total_results);
     handleResultList(catalogMovies.results);
+    resetPaginationInterface(catalogMovies.total_results);
+    handlePaginationAppearance(catalogMovies.results);
   } catch (error) {
     handleServerErrorMarkup();
     handlePaginationAppearance();
@@ -73,9 +74,9 @@ async function handleSearchedMovies(query) {
 
     hideElement(errorContainer);
 
-    resetPaginationInterface(totalResults, query);
     handleResultList(searchedMovies.results);
 
+    resetPaginationInterface(totalResults, query);
     handlePaginationAppearance(totalResults);
   } catch (error) {
     handleServerErrorMarkup();

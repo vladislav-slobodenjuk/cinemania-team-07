@@ -1,4 +1,5 @@
 export const refs = {
+  catalogSection: document.querySelector('.section-catalog'),
   searchForm: document.getElementById('movieSearchForm'),
   searchInput: document.getElementById('movieInput'),
   catalogList: document.getElementById('movieList'),
