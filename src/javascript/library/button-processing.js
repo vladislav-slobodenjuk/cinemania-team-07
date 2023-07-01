@@ -1,6 +1,5 @@
-import { addFilmCardToLibrary } from "./filmCard/addFilmCard";
-import { deleteFilmCardFromLibrary } from "./filmCard/deleteFilmCard";
-
+import { addFilmCardToLibrary } from './filmCard/addFilmCard';
+import { deleteFilmCardFromLibrary } from './filmCard/deleteFilmCard';
 
 export function handleFilm(e) {
   const id = e.target.dataset.id;
@@ -9,7 +8,6 @@ export function handleFilm(e) {
     setBtnProp(e.target, addOps);
 
     addFilmCardToLibrary(id);
-
   } else if (e.target.hasAttribute('data-remove')) {
     setBtnProp(e.target, removeOps);
 
@@ -17,12 +15,11 @@ export function handleFilm(e) {
   }
 }
 
-
 const removeOps = {
   addAttr: 'data-add',
   removeAttr: 'data-remove',
   btnText: 'Add to my library',
-}
+};
 
 const addOps = {
   addAttr: 'data-remove',

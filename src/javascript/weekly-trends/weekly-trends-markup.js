@@ -13,12 +13,18 @@ export function createMarkup(films) {
         id,
         release_date,
         genre_ids,
+        genres,
         vote_average,
         original_title,
         original_name,
         first_air_date,
       }) => {
-        const genres = validateGenres(genre_ids, storage);
+        const storageFilmIds = genres?.map(item => item.id);
+        const transformedGenres = validateGenres(
+          genre_ids || storageFilmIds,
+          storage
+        );
+
         const imageSrc = poster_path
           ? `https://image.tmdb.org/t/p/w500${poster_path}`
           : `${defaultImg}`;
@@ -31,7 +37,7 @@ export function createMarkup(films) {
               <div class="film-info">
                 <p class="film-title">${original_title || original_name}</p>
                 <div class="film-details">
-                  <span class="film-description">${genres} | ${
+                  <span class="film-description">${transformedGenres} | ${
           new Date(release_date).getFullYear() ||
           new Date(first_air_date).getFullYear()
         }</span>

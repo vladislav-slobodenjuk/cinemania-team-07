@@ -8,6 +8,7 @@ export default function createMarkup(details, option) {
 }
 
 function markupModalDetails({
+  id,
   poster_path,
   title,
   vote_average,
@@ -45,7 +46,14 @@ function markupModalDetails({
 
 				<div class="modal__buttons-wrapper">
 					<div class="modal__button-border">
-						<button class="modal__button--filled" type="button">Add to my library</button>
+						<button
+							class="modal__button--filled"
+							type="button"
+							data-id=${id}
+							data-${'remove'}
+						>
+							${'Remove from my library'}
+						</button>
 					</div>
 					<div class="modal__button-border">
 						<button class="modal__button--outlined" type="button">Watch trailer</button>

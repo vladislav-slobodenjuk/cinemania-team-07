@@ -15,7 +15,7 @@ export default async function handleModal(e) {
 
   try {
     const movie = await getMovieById(movieId);
-    const modalMarkup = createMarkup(movie.data, option);
+    const modalMarkup = createMarkup(movie, option);
     insertMarkup(refs.modalContent, modalMarkup);
   } catch (error) {
     console.trace(error);
