@@ -63,7 +63,7 @@ function placeMarkup(starsValue, isHero) {
     };
 
     starsContainer.classList.add('stars-container--hero');
-    refsHero.starsList.classList.add('stars-list--hero');
+    refsHero.starsList?.classList.add('stars-list--hero');
     refsHero.starsListImg.forEach(item =>
       item.classList.add('stars-list__img--hero')
     );

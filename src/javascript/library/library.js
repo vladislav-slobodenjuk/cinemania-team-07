@@ -1,11 +1,13 @@
 import { insertMarkup } from '../weekly-trends/weekly-trends-markup';
 import { createMarkup } from '../weekly-trends/weekly-trends-markup';
-import defaultImg from '../../images/default.jpg';
+// import defaultImg from '../../images/default.jpg';
 import { STORAGE_KEY } from '../api-service/api_keys';
-import { openModalAboutFilm } from '../modal/movieModal';
 import { createDefaultMarkup } from './filmCard/createDefaultMarkup';
+// import { validateGenres } from '../weekly-trends/weekly-trends-genres';
+// import { openModalAboutFilm } from '../modal/movieModal';
+// import handleModal from '../modal/handleModal';
 
-export const libraryRef = document.querySelector('.library');
+const libraryRef = document.querySelector('.library');
 const btnLib = document.getElementById('loadMore');
 const filmList = document.querySelector('.listListener');
 
@@ -14,7 +16,6 @@ const library = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
 window.addEventListener('DOMContentLoaded', () => {
   getLibrarylistInParts(library);
 });
-
 
 btnLib?.addEventListener('click', onLoadMoreClick);
 
@@ -25,8 +26,6 @@ function onLoadMoreClick() {
 }
 let totalElementInList = 0;
 let firstEl = 0;
-
-
 
 function getLibrarylistInParts(libraryData) {
   const totalLiberyLength = libraryData.length;
@@ -41,20 +40,22 @@ function getLibrarylistInParts(libraryData) {
   }
 }
 
-
-
 async function createLibraryMarkup(libraryInParts) {
   if (libraryRef && libraryInParts.length === 0) {
     const defaultMarkup = createDefaultMarkup();
-    return insertMarkup(libraryRef, defaultMarkup);
+    // return insertMarkup(libraryRef, defaultMarkup);
+    return libraryRef.insertAdjacentHTML('beforeend', defaultMarkup);
   }
 
   const cardsMarkup = createMarkup(libraryInParts);
-  insertMarkup(libraryRef, cardsMarkup);
+  // insertMarkup(libraryRef, cardsMarkup);
+  return libraryRef.insertAdjacentHTML('beforeend', cardsMarkup);
 }
 
-filmList.addEventListener('click', event => {
-  const li = event.target.closest('.card-item');
-  const movieId = li.getAttribute('data-id');
-  openModalAboutFilm(movieId);
-});
+// filmList.addEventListener('click', event => {
+//   const li = event.target.closest('.card-item');
+//   const movieId = li.getAttribute('data-id');
+// openModalAboutFilm(movieId);
+// handleModal(movieId);
+// });
+console.log('from library page');
