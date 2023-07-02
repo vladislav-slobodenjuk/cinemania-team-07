@@ -1,7 +1,7 @@
-// import { createLibraryMarkup } from '../library';
 import { STORAGE_KEY } from '../../api-service/api_keys';
+import { createLibraryMarkup } from '../createLibraryMarkup';
+import { libraryRef } from '../ref';
 
-const libraryRef = document.querySelector('.library');
 
 export function deleteFilmCardFromLibrary(id) {
   const libraryList = JSON.parse(localStorage.getItem(STORAGE_KEY));
@@ -9,7 +9,6 @@ export function deleteFilmCardFromLibrary(id) {
 
   libraryList.splice(itemToDelete, 1);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(libraryList));
-  // console.log(libraryList);
   if (window.location.href.includes('library')) {
     libraryRef.innerHTML = '';
     createLibraryMarkup(libraryList);

@@ -11,7 +11,6 @@ export async function addFilmCardToLibrary(id) {
     const movieObj = await getMovieById(id);
     libraryList.push(movieObj);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(libraryList));
-    // console.log(libraryList);
   } catch (error) {
     console.log('EROR', error);
   }
