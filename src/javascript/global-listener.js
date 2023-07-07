@@ -13,12 +13,12 @@ window.addEventListener('click', e => {
   // const id = e.target.dataset.id;
   // console.log(e.target.hasAttribute('trailer-id'));
 
-  const isHeroDetailsButton = e.target.classList.contains('css-bnt-info');
-  const IsTrailerButton = e.target.classList.contains('watch-trailer-button');
+  const isHeroDetailsButton = e.target.hasAttribute('data-info');
+  const IsTrailerButton = e.target.hasAttribute('data-trailer');
   const isFilmCard = Boolean(e.target.closest('.card-item'));
   // const isUpcomingBtn = e.target.classList.contains('btn');
-  const isAddBtn = e.target.hasAttribute('data-add');
-  const isDeleteBtn = e.target.hasAttribute('data-remove');
+  const isAddBtn = e.target.hasAttribute('data-action');
+  // const isDeleteBtn = e.target.hasAttribute('data-remove');
 
   switch (true) {
     case isHeroDetailsButton:
@@ -30,7 +30,7 @@ window.addEventListener('click', e => {
 
     // case isUpcomingBtn:
     case isAddBtn:
-    case isDeleteBtn:
+      // case isDeleteBtn:
       // case upcomingBtn:
       // case removeBtn:
       handleFilm(e);

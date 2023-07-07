@@ -80,6 +80,9 @@ export function careateUpcomingMarkup(film) {
           </div>
           <h4 class="upcoming-card__subtitle metrics-text">ABOUT</h4>
             <p class="upcoming-card__text">${overview}</p>
-          <button class="btn" type="button" data-id=${id} data-${btnAttribute}>${btnText}</button>
+          <button class="btn" type="button" data-id=${id} data-action=${btnAttribute}>${btnText}</button>
+
         </div>`;
 }
+
+// <button class="css-btn-trailer watch-trailer-button" type="button" data-id=${id} data-trailer>Watch Trailer</button>

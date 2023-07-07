@@ -11,11 +11,11 @@ export default async function handleModal(e) {
     e.target.getAttribute('trailer-id') ||
     e.target.closest('.card-item').getAttribute('data-id');
 
-  const option = e.target.hasAttribute('trailer-id') ? 'trailer' : null;
+  const isTrailer = e.target.hasAttribute('data-trailer');
 
   try {
     const movie = await getMovieById(movieId);
-    const modalMarkup = createMarkup(movie.data, option);
+    const modalMarkup = createMarkup(movie.data, isTrailer);
     insertMarkup(refs.modalContent, modalMarkup);
   } catch (error) {
     console.trace(error);

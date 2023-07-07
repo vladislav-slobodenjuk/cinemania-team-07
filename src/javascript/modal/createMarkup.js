@@ -1,13 +1,16 @@
+import { findFilmAtStorage } from '../upcoming/helpers';
+import { STORAGE_KEY } from '../api-service/api_keys';
 import posterAbsent from '../../images/default.jpg';
 
 const posterBaseUrl = 'https://image.tmdb.org/t/p/original';
 
-export default function createMarkup(details, option) {
-  if (option) return markupModalTrailer(details);
+export default function createMarkup(details, isTrailer) {
+  if (isTrailer) return markupModalTrailer(details);
   return markupModalDetails(details);
 }
 
 function markupModalDetails({
+  id,
   poster_path,
   title,
   vote_average,
@@ -16,6 +19,12 @@ function markupModalDetails({
   genres,
   overview,
 }) {
+  const isSaved = findFilmAtStorage(STORAGE_KEY, id);
+  console.log('myIsSaved', isSaved);
+
+  const btnAttribute = isSaved ? 'remove' : 'add';
+  const btnText = isSaved ? 'Remove from my library' : 'Add to my library';
+
   return `<img class="modal__poster" 
 		src="${checkPoster(poster_path)}" 
 		alt="Poster">
@@ -45,10 +54,20 @@ function markupModalDetails({
 
 				<div class="modal__buttons-wrapper">
 					<div class="modal__button-border">
-						<button class="modal__button--filled" type="button">Add to my library</button>
+						<button class="modal__button--filled" type="button"
+							data-id=${id} 
+							data-action=${btnAttribute}>
+								${btnText}
+						</button>
 					</div>
 					<div class="modal__button-border">
-						<button class="modal__button--outlined" type="button">Watch trailer</button>
+						<button 
+							class="modal__button--outlined" 
+							type="button"
+							data-trailer
+							data-id=${id}>
+								Watch trailer
+						</button>
 					</div>
 				</div>
 			</div>`;
