@@ -87,7 +87,10 @@ function createSuccessFetchBtnMurkUp(filmId) {
   heroTrailertBtn.textContent = 'Watch Trailer';
   heroTrailertBtn.classList.add('css-btn-trailer', 'watch-trailer-button');
   heroTrailertBtn.setAttribute('type', 'button');
-  heroTrailertBtn.setAttribute('trailer-id', `${filmId}`);
+  // heroTrailertBtn.setAttribute('trailer-id', `${filmId}`);
+
+  heroTrailertBtn.setAttribute('data-id', filmId);
+  heroTrailertBtn.setAttribute('data-trailer', '');
 
   refs.heroBtnDiv.append(heroTrailertBtn);
 
@@ -96,6 +99,8 @@ function createSuccessFetchBtnMurkUp(filmId) {
   heroDetailstBtn.classList.add('css-bnt-info');
   heroDetailstBtn.setAttribute('type', 'button');
   heroDetailstBtn.setAttribute('data-id', filmId);
+
+  heroDetailstBtn.setAttribute('data-info', '');
 
   refs.heroBtnDiv.append(heroDetailstBtn);
 }

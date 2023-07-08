@@ -38,14 +38,17 @@ function getLibrarylistInParts(libraryData) {
 
 export function handleFilm(e) {
   const id = e.target.dataset.id;
+  // console.log(e.target.hasAttribute('data-action', 'remove'));
 
-  if (e.target.hasAttribute('data-add')) {
-    setBtnProp(e.target, addOps);
+  if (e.target.getAttribute('data-action') === 'add') {
+    // setBtnProp(e.target, addOps);
+    e.target.setAttribute('data-action', 'remove');
+    e.target.textContent = 'Remove from my library';
 
     addFilmToLibrary(id);
-  } else if (e.target.hasAttribute('data-remove')) {
-    e.target.removeAttribute('data-remove');
-    e.target.setAttribute('data-add', '');
+  } else if (e.target.getAttribute('data-action') === 'remove') {
+    // e.target.removeAttribute('data-remove');
+    e.target.setAttribute('data-action', 'add');
     e.target.textContent = 'Add to my library';
 
     deleteCardLibrary(id);

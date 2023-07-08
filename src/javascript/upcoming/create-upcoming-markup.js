@@ -1,6 +1,7 @@
 import { roundToTen, findFilmAtStorage } from './helpers';
 import { STORAGE_KEY } from '../api-service/api_keys';
 import { validateGenres } from '../weekly-trends/weekly-trends-genres';
+
 export function careateUpcomingMarkup(film) {
   const {
     backdrop_path,
@@ -36,9 +37,6 @@ export function careateUpcomingMarkup(film) {
     genre_ids,
     JSON.parse(localStorage.getItem('genres'))
   );
-  //console.log(genresPromise)
-  //const genres = await genresPromise;
-  //const genres = Promise.resolve(genresPromise).then(result => result);
   //console.log(genres);
 
   return `
@@ -80,6 +78,9 @@ export function careateUpcomingMarkup(film) {
           </div>
           <h4 class="upcoming-card__subtitle metrics-text">ABOUT</h4>
             <p class="upcoming-card__text">${overview}</p>
-          <button class="btn" type="button" data-id=${id} data-${btnAttribute}>${btnText}</button>
+          <button class="btn" type="button" data-id=${id} data-action=${btnAttribute}>${btnText}</button>
+
         </div>`;
 }
+
+// <button class="css-btn-trailer watch-trailer-button" type="button" data-id=${id} data-trailer>Watch Trailer</button>

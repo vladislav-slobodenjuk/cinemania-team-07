@@ -1,13 +1,17 @@
+import { findFilmAtStorage } from '../upcoming/helpers';
+import { STORAGE_KEY } from '../api-service/api_keys';
 import posterAbsent from '../../images/default.jpg';
+import { POSTER_BASE_URL } from '../api-service/api_keys';
 
-const posterBaseUrl = 'https://image.tmdb.org/t/p/original';
+// const posterBaseUrl = 'https://image.tmdb.org/t/p/original';
 
-export default function createMarkup(details, option) {
-  if (option) return markupModalTrailer(details);
-  return markupModalDetails(details);
+export default function createMarkup(details, isTrailer) {
+  if (isTrailer) return createTrailerMarkup(details);
+  return createDetailsMarkup(details);
 }
 
-function markupModalDetails({
+function createDetailsMarkup({
+  id,
   poster_path,
   title,
   vote_average,
@@ -16,6 +20,11 @@ function markupModalDetails({
   genres,
   overview,
 }) {
+  const isSaved = findFilmAtStorage(STORAGE_KEY, id);
+  // console.log('myIsSaved', isSaved);
+  const btnAttribute = isSaved ? 'remove' : 'add';
+  const btnText = isSaved ? 'Remove from my library' : 'Add to my library';
+
   return `<img class="modal__poster" 
 		src="${checkPoster(poster_path)}" 
 		alt="Poster">
@@ -45,10 +54,24 @@ function markupModalDetails({
 
 				<div class="modal__buttons-wrapper">
 					<div class="modal__button-border">
-						<button class="modal__button--filled" type="button">Add to my library</button>
+						<button
+			    		class="modal__button--filled"
+						  type="button"
+							data-id=${id} 
+							data-action=${btnAttribute}
+						>
+							${btnText}
+						</button>
 					</div>
 					<div class="modal__button-border">
-						<button class="modal__button--outlined" type="button">Watch trailer</button>
+						<button 
+							class="modal__button--outlined" 
+							type="button"
+							data-id=${id}
+							data-trailer
+						>
+							Watch trailer
+						</button>
 					</div>
 				</div>
 			</div>`;
@@ -56,7 +79,7 @@ function markupModalDetails({
 
 function checkPoster(poster_path) {
   if (!poster_path) return posterAbsent;
-  return `${posterBaseUrl}${poster_path}`;
+  return `${POSTER_BASE_URL}${poster_path}`;
 }
 
 function checkVotes(vote_average, vote_count) {
@@ -71,7 +94,7 @@ function checkVotes(vote_average, vote_count) {
 	`;
 }
 
-function markupModalTrailer({ videos: { results: videoResults } }) {
+function createTrailerMarkup({ videos: { results: videoResults } }) {
   videoResults.filter(({ name }) => name.toLowerCase().includes('official'));
 
   const randomVideoKey =

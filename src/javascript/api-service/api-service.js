@@ -22,32 +22,27 @@ export async function getMovieById(movieId) {
 
 // Get weekly trends
 
-const tmdbApiInstance = axios.create({
-  baseURL: 'https://api.themoviedb.org/3',
+const getTrendingsInst = axios.create({
+  baseURL: API_URL,
   params: { language: 'en-US', page: '1', api_key: API_KEY },
 });
 
 export async function getTrendyFilms(page = 1) {
-  let url = '/trending/all/week';
-  const response = await tmdbApiInstance.get(url, { params: { page } });
-
+  const url = '/trending/all/week';
+  const response = await getTrendingsInst.get(url, { params: { page } });
   return response.data;
 }
 
 // Get searched catalog movies
 
-const tmdbApiSearchedInstance = axios.create({
-  baseURL: 'https://api.themoviedb.org/3',
+const getByQuerryInst = axios.create({
+  baseURL: API_URL,
   params: { language: 'en-US', page: '1', query: '' },
   headers: { Authorization: `Bearer ${API_BAERER}` },
 });
 
 export async function getSearchedMovies(query = '', page = 1) {
-  let url = '/search/movie';
-
-  const response = await tmdbApiSearchedInstance.get(url, {
-    params: { query, page },
-  });
-
-  return response.data;
+  const url = '/search/movie';
+  const res = await getByQuerryInst.get(url, { params: { query, page } });
+  return res.data;
 }
