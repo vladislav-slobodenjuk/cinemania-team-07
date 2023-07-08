@@ -7,9 +7,7 @@ import { refs } from './closeModal';
 
 export default async function handleModal(e) {
   const movieId =
-    e.target.dataset.id ||
-    e.target.getAttribute('trailer-id') ||
-    e.target.closest('.card-item').getAttribute('data-id');
+    e.target.dataset.id || e.target.closest('.card-item').dataset.id;
 
   const isTrailer = e.target.hasAttribute('data-trailer');
 

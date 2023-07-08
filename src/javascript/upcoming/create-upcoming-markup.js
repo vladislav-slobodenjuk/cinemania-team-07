@@ -1,6 +1,7 @@
 import { roundToTen, findFilmAtStorage } from './helpers';
 import { STORAGE_KEY } from '../api-service/api_keys';
 import { validateGenres } from '../weekly-trends/weekly-trends-genres';
+
 export function careateUpcomingMarkup(film) {
   const {
     backdrop_path,
@@ -36,9 +37,6 @@ export function careateUpcomingMarkup(film) {
     genre_ids,
     JSON.parse(localStorage.getItem('genres'))
   );
-  //console.log(genresPromise)
-  //const genres = await genresPromise;
-  //const genres = Promise.resolve(genresPromise).then(result => result);
   //console.log(genres);
 
   return `
