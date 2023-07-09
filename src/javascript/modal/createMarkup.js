@@ -2,6 +2,7 @@ import { findFilmAtStorage } from '../upcoming/helpers';
 import { STORAGE_KEY } from '../api-service/api_keys';
 import posterAbsent from '../../images/default.jpg';
 import { POSTER_BASE_URL } from '../api-service/api_keys';
+import { buttonsMarkup } from '../buttons/buttonsMarkup';
 
 // const posterBaseUrl = 'https://image.tmdb.org/t/p/original';
 
@@ -23,7 +24,7 @@ function createDetailsMarkup({
   const isSaved = findFilmAtStorage(STORAGE_KEY, id);
   // console.log('myIsSaved', isSaved);
   const btnAttribute = isSaved ? 'remove' : 'add';
-  const btnText = isSaved ? 'Remove from my library' : 'Add to my library';
+  // const btnText = isSaved ? 'Remove from my library' : 'Add to my library';
 
   return `<img class="modal__poster" 
 		src="${checkPoster(poster_path)}" 
@@ -52,8 +53,14 @@ function createDetailsMarkup({
 				<h3 class="modal__about">About</h3>
 				<p class="modal__text">${overview}</p>
 
-				<div class="modal__buttons-wrapper">
-					<div class="modal__button-border">
+				<div class="buttons__wrapper">
+					${buttonsMarkup({ btnType: 'watchTrailer', id })}
+					${buttonsMarkup({ btnType: 'handleLibrary', btnAttribute, id })}
+				</div>
+			</div>`;
+}
+
+/*
 						<button
 			    		class="modal__button--filled"
 						  type="button"
@@ -62,8 +69,9 @@ function createDetailsMarkup({
 						>
 							${btnText}
 						</button>
-					</div>
-					<div class="modal__button-border">
+*/
+
+/*
 						<button 
 							class="modal__button--outlined" 
 							type="button"
@@ -72,10 +80,7 @@ function createDetailsMarkup({
 						>
 							Watch trailer
 						</button>
-					</div>
-				</div>
-			</div>`;
-}
+*/
 
 function checkPoster(poster_path) {
   if (!poster_path) return posterAbsent;
@@ -103,12 +108,15 @@ function createTrailerMarkup({ videos: { results: videoResults } }) {
 
   return `
 		<iframe
+			class="modal__video"
 			src="${videoSource}" 
-			width="616"
-			height="400"
+
 			frameborder="0"
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 			allowfullscreen>
 		</iframe>
 	`;
 }
+
+// width = '616';
+// height = '400';

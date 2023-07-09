@@ -16,7 +16,7 @@
 .hero-container {
   /*delete margin*/
   /* margin-top: 25px; */
-  max-width: 320px;
+  /* max-width: 320px; */
   margin-inline: auto;
 
   background-color: #111111;
@@ -183,7 +183,7 @@
   }
 
   .hero-container {
-    max-width: 768px;
+    /* max-width: 768px; */
     margin-inline: auto;
     background-position: 180px;
     background-color: #111111;

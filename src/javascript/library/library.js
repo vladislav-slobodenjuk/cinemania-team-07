@@ -43,7 +43,7 @@ export function handleFilm(e) {
   if (e.target.getAttribute('data-action') === 'add') {
     // setBtnProp(e.target, addOps);
     e.target.setAttribute('data-action', 'remove');
-    e.target.textContent = 'Remove from my library';
+    e.target.textContent = 'Drop from my library';
 
     addFilmToLibrary(id);
   } else if (e.target.getAttribute('data-action') === 'remove') {
@@ -58,7 +58,7 @@ export function handleFilm(e) {
 const addOps = {
   addAttr: 'data-remove',
   removeAttr: 'data-add',
-  btnText: 'Remove from my library',
+  btnText: 'Drop from my library',
 };
 
 function setBtnProp(el, props) {

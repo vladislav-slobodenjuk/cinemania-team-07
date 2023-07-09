@@ -9,7 +9,7 @@ export default function createErrorMarkup() {
 					try again later...
 				</p>
 			</div>
-			<img src=${errorImage} width="300" alt="Error, something went wrong">
+			<img class="modal__error-img" src=${errorImage} alt="Error, something went wrong">
 		</div>
 	`;
 }
